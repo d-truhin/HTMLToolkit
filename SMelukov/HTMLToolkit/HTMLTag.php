@@ -1,15 +1,16 @@
 <?php
+namespace SMelukov\HTMLToolkit;
+use SMelukov\HTMLToolkit\interfaces;
+
 /**
  * Created by PhpStorm.
  * User: s_melukov
  * Date: 19.03.14
  * Time: 21:12
+ *
+ * @method HTMLTag parent();
  */
-
-namespace SMelukov\HTMLToolkit;
-
-
-class HTMLTag extends IWebNode
+class HTMLTag extends interfaces\IWebNode
 {
     protected $_type        = '';
     protected $_single      = false;
@@ -17,9 +18,15 @@ class HTMLTag extends IWebNode
 
     public function __construct($type, $attributes = array(), $single = false)
     {
+        parent::__construct();
         $this->_type = $type;
         $this->_attributes = is_array($attributes) ? $attributes : [];
         $this->_single = $single;
+    }
+
+    public function getType()
+    {
+        return $this->_type;
     }
 
     public function outStart($onlyReturn = false)
@@ -33,6 +40,22 @@ class HTMLTag extends IWebNode
         if($this->_single)
             echo '/';
         echo '>';
+        if($onlyReturn)
+            return ob_get_clean();
+        ob_end_flush();
+        return $this;
+    }
+
+    public function out($onlyReturn = false)
+    {
+        ob_start();
+        $this->outStart();
+        /** @var interfaces\IWebNode $children */
+        foreach($this->getChildrenList() as $children)
+        {
+            $children->out($onlyReturn);
+        }
+        $this->outEnd();
         if($onlyReturn)
             return ob_get_clean();
         ob_end_flush();
@@ -75,6 +98,12 @@ class HTMLTag extends IWebNode
         return $this;
     }
 
+    public function unsetAttrAll()
+    {
+        $this->_attributes = [];
+        return $this;
+    }
+
     protected function encodeAttr($name, $flags = false)
     {
         if(isset($this->_attributes[$name]))
@@ -90,11 +119,5 @@ class HTMLTag extends IWebNode
     public function getAttrList()
     {
         return $this->_attributes;
-    }
-
-    public function unsetAttrAll()
-    {
-        $this->_attributes = [];
-        return $this;
     }
 }

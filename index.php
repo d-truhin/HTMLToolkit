@@ -6,10 +6,19 @@
  * Time: 21:26
  */
 
+use SMelukov\HTMLToolkit\HTMLTag;
+use SMelukov\HTMLToolkit\TextNode;
+
 require_once "smelukov_autoload.php";
 
-$tag = new \SMelukov\HTMLToolkit\TextNode();
-$tag->setContent('123');
-$tag->out();
-$tag2 = new \SMelukov\HTMLToolkit\HTMLTag('b');
-$tag2->set('class', "\"'&nbsp;")->append((new \SMelukov\HTMLToolkit\TextNode())->setContent('<i>777</i>'))->out();
+$text = new TextNode();
+$text->append(new TextNode('привет'));
+$i = new HTMLTag('i');
+$i->append(new TextNode(' еще привет<div>123</div>'));
+$b = new HTMLTag('b');
+$b->set('class', 'some_class')->append($text)->append($i);
+$text->remove();
+$b->out();
+?><pre><?
+print_r($b);?>
+</pre>
