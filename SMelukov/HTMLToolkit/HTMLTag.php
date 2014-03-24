@@ -14,6 +14,9 @@ class HTMLTag extends interfaces\IWebNode
 {
     protected $_type        = '';
     protected $_single      = false;
+    /**
+     * @var TagAttribute[]
+     */
     protected $_attributes  = [];
 
     public function __construct($type, $attributes = array(), $single = false)
@@ -33,9 +36,10 @@ class HTMLTag extends interfaces\IWebNode
     {
         ob_start();
         echo "<{$this->_type}";
+        /** @var TagAttribute $attrValue */
         foreach($this->getAttrList() as $attrName => $attrValue)
         {
-            echo " $attrName=\"{$this->encodeAttr($attrName)}\"";
+            echo " $attrName=\"{$attrValue->format()}\"";
         }
         if($this->_single)
             echo '/';
@@ -73,49 +77,75 @@ class HTMLTag extends interfaces\IWebNode
         return $this;
     }
 
-    public function get($name, $default = '')
+    /**
+     * @param $name
+     * @return null|TagAttribute
+     */
+    public function getAttr($name)
     {
         if(isset($this->_attributes[$name]))
             return $this->_attributes[$name];
+        else
+            return ($this->_attributes[$name] = new TagAttribute($name));
+    }
+
+    public function get($name, $default = '')
+    {
+        if(isset($this->_attributes[$name]))
+            return $this->_attributes[$name]->format();
         else
             return $default;
     }
 
     public function set($name, $value = '')
     {
-        $this->_attributes[$name] = $value;
+        if(isset($this->_attributes[$name]))
+        {
+            $this->_attributes[$name]->clear();
+            $this->_attributes[$name]->append($value);
+        }
+        else
+            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::$default_delimiter, (is_array($value) ? $value : [$value]));
+
         return $this;
     }
 
-    public function unsetAttr($name)
+    public function addToAttr($name, $value)
     {
-        if(!is_array($name))
-            $name = [$name];
+        if(!isset($this->_attributes[$name]))
+            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::$default_delimiter, (is_array($value) ? $value : [$value]));
+        $this->_attributes[$name]->append($value);
 
-        foreach($name as $attrName => $attrValue)
+        return $this;
+    }
+
+    public function delFromAttr($name, $value)
+    {
+        if(isset($this->_attributes[$name]))
+            $this->_attributes[$name]->unsetValue($value);
+
+        return $this;
+    }
+
+    public function clearAttr($name)
+    {
+        $_temp = is_array($name) ? $name : [$name];
+
+        foreach($_temp as $attrName)
             unset($this->_attributes[$attrName]);
 
         return $this;
     }
 
-    public function unsetAttrAll()
+    public function clearAttrAll()
     {
         $this->_attributes = [];
         return $this;
     }
 
-    protected function encodeAttr($name, $flags = false)
-    {
-        if(isset($this->_attributes[$name]))
-        {
-            if($flags == false)
-                $flags = ENT_COMPAT | ENT_HTML401 | ENT_DISALLOWED | ENT_SUBSTITUTE;
-
-            return htmlspecialchars($this->_attributes[$name], $flags);
-        }
-        return '';
-    }
-
+    /**
+     * @return TagAttribute[]
+     */
     public function getAttrList()
     {
         return $this->_attributes;

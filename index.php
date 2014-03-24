@@ -16,7 +16,7 @@ $text->append(new TextNode('привет'));
 $i = new HTMLTag('i');
 $i->append(new TextNode(' еще привет<div>123</div>'));
 $b = new HTMLTag('b');
-$b->set('class', 'some_class')->append($text)->append($i);
+$b->set('class', 'some_class')->append($text)->append($i)->addToAttr('class', 'more_class')->clearAttr('class');
 $text->remove();
 $b->out();
 ?><pre><?
