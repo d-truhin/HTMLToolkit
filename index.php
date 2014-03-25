@@ -20,3 +20,12 @@ $b->set('class', 'some_class')->append($text)->append($i)->addToAttr('class', 'm
 $text->remove();
 $b->getAttr('rel')->setDelimiter(',')->append('1,2,3')->unsetValue(2)->switchValue('3','7');
 $b->out();
+
+$select = (new HTMLTag('select'))->set('name', 'some_name');
+for($i = 0; $i<5; $i++)
+    $select->append((new HTMLTag('option'))->set('value', $i)->append(new TextNode("Option $i")));
+$select->getChildrenList()[6]->append(new TextNode('added'))->parent()->addToAttr('class', 'select_class');
+$select->outStart();
+(new HTMLTag('option', array('value'=>array('777', '888'))))->append(new TextNode('ALL'))->out();
+$select->outChildrens();
+$select->outEnd();

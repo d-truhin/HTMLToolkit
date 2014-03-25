@@ -9,6 +9,7 @@ use SMelukov\HTMLToolkit\interfaces;
  * Time: 21:12
  *
  * @method HTMLTag parent();
+ * @method interfaces\IWebNode getChildrenList();
  */
 class HTMLTag extends interfaces\IWebNode
 {
@@ -23,7 +24,9 @@ class HTMLTag extends interfaces\IWebNode
     {
         parent::__construct();
         $this->_type = $type;
-        $this->_attributes = is_array($attributes) ? $attributes : [];
+        foreach(is_array($attributes) ? $attributes : [] as $attrName=>$attrValue)
+            $this->set($attrName, $attrValue);
+        $this->_attributes;
         $this->_single = $single;
     }
 
@@ -50,15 +53,25 @@ class HTMLTag extends interfaces\IWebNode
         return $this;
     }
 
-    public function out($onlyReturn = false)
+    public function outChildrens($onlyReturn = false)
     {
         ob_start();
-        $this->outStart();
         /** @var interfaces\IWebNode $children */
         foreach($this->getChildrenList() as $children)
         {
             $children->out($onlyReturn);
         }
+        if($onlyReturn)
+            return ob_get_clean();
+        ob_end_flush();
+        return $this;
+    }
+
+    public function out($onlyReturn = false)
+    {
+        ob_start();
+        $this->outStart();
+        $this->outChildrens();
         $this->outEnd();
         if($onlyReturn)
             return ob_get_clean();
@@ -119,7 +132,8 @@ class HTMLTag extends interfaces\IWebNode
     {
         if(!isset($this->_attributes[$name]))
             $this->_attributes[$name] = new TagAttribute($name, TagAttribute::$default_delimiter, (is_array($value) ? $value : [$value]));
-        $this->_attributes[$name]->append($value);
+        else
+            $this->_attributes[$name]->append($value);
 
         return $this;
     }
