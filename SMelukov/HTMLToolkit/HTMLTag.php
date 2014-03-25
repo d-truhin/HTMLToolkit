@@ -78,8 +78,8 @@ class HTMLTag extends interfaces\IWebNode
     }
 
     /**
-     * @param $name
-     * @return null|TagAttribute
+     * @param string $name
+     * @return TagAttribute
      */
     public function getAttr($name)
     {
@@ -89,12 +89,17 @@ class HTMLTag extends interfaces\IWebNode
             return ($this->_attributes[$name] = new TagAttribute($name));
     }
 
+    /**
+     * @param string $name
+     * @param string $default
+     * @return string
+     */
     public function get($name, $default = '')
     {
-        if(isset($this->_attributes[$name]))
-            return $this->_attributes[$name]->format();
-        else
-            return $default;
+        if(!isset($this->_attributes[$name]))
+            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::$default_delimiter, [$default]);
+
+        return $this->_attributes[$name]->format();
     }
 
     public function set($name, $value = '')
@@ -127,17 +132,16 @@ class HTMLTag extends interfaces\IWebNode
         return $this;
     }
 
-    public function clearAttr($name)
+    public function unsetAttr($name)
     {
         $_temp = is_array($name) ? $name : [$name];
-
         foreach($_temp as $attrName)
             unset($this->_attributes[$attrName]);
 
         return $this;
     }
 
-    public function clearAttrAll()
+    public function unsetAttrAll()
     {
         $this->_attributes = [];
         return $this;

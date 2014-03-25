@@ -36,10 +36,15 @@ class TagAttribute
         return $this;
     }
 
-   public function getDelimiter()
-   {
+    public function getDelimiter()
+    {
        return $this->_delimiter;
-   }
+    }
+
+    public function getValues()
+    {
+        return $this->_values;
+    }
 
     public function append($value)
     {
@@ -82,6 +87,8 @@ class TagAttribute
                 $val = $to;
         }
         unset($val);
+
+        return $this;
     }
 
     protected function encode($value, $flags = false)
