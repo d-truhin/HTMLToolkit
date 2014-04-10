@@ -14,7 +14,7 @@ require_once "smelukov_autoload.php";
 $text = new TextNode();
 $text->append(new TextNode('привет'));
 $i = new HTMLTag('i');
-$i->append(new TextNode(' еще привет<div>123</div>'));
+$i->append(new TextNode(' еще привет<div>123</div>&lt &lt;'));
 $b = new HTMLTag('b');
 $b->set('class', 'some_class')->append($text)->append($i)->addToAttr('class', 'more_class')->delFromAttr('class', 'some_class');
 $text->remove();

@@ -30,8 +30,8 @@ class TextNode extends interfaces\IWebNode
     public function out($onlyReturn = false)
     {
         if($onlyReturn)
-            return $this->encodeContent($this->_content);
-        echo $this->encodeContent($this->_content);
+            return Tools::encode($this->_content);
+        echo Tools::encode($this->_content);
         return $this;
     }
 

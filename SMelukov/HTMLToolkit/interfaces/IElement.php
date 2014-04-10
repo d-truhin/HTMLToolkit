@@ -14,7 +14,7 @@ abstract class IElement
     /**
      * @var IElement null
      */
-    protected $_parent = null;
+    protected           $_parent = null;
 
     /**
      * @var int

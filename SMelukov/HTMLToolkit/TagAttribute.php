@@ -91,19 +91,11 @@ class TagAttribute
         return $this;
     }
 
-    protected function encode($value, $flags = false)
-    {
-        if($flags == false)
-            $flags = ENT_COMPAT | ENT_HTML401 | ENT_DISALLOWED | ENT_SUBSTITUTE;
-
-        return htmlspecialchars($value, $flags);
-    }
-
     public function format($encode = true)
     {
         $_temp = implode($this->_delimiter, $this->_values);
         if($encode)
-            $_temp = $this->encode($_temp);
+            $_temp = Tools::encode($_temp);
 
         return $_temp;
     }
