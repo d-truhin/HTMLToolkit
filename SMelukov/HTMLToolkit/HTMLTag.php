@@ -20,11 +20,6 @@ class HTMLTag extends interfaces\IWebNode
      */
     protected $_attributes  = [];
 
-    function __toString()
-    {
-        return strip_tags($this->out(true));
-    }
-
     public function __construct($type, $attributes = array(), $single = false)
     {
         parent::__construct();
@@ -172,5 +167,20 @@ class HTMLTag extends interfaces\IWebNode
     public function getAttrList()
     {
         return $this->_attributes;
+    }
+
+    public function setText($text)
+    {
+        /** @var $children interfaces\IElement */
+        foreach($this->getChildrenList() as $children)
+            $this->removeChildren($children);
+        $this->append(new TextNode($text));
+
+        return $this;
+    }
+
+    public function getText()
+    {
+        return strip_tags($this->out(true));
     }
 }

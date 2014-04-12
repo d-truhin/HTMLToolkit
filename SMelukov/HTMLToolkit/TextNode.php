@@ -12,17 +12,12 @@ use SMelukov\HTMLToolkit\interfaces;
  */
 class TextNode extends interfaces\IWebNode
 {
-    protected $_content = '';
-
-    function __toString()
-    {
-        return $this->_content;
-    }
+    protected $_text = '';
 
     public function __construct($content = '')
     {
         parent::__construct();
-        $this->_content = $content;
+        $this->_text = $content;
     }
 
     public function outStart($onlyReturn = false) {}
@@ -30,22 +25,22 @@ class TextNode extends interfaces\IWebNode
     public function out($onlyReturn = false)
     {
         if($onlyReturn)
-            return Tools::encode($this->_content);
-        echo Tools::encode($this->_content);
+            return Tools::encode($this->_text);
+        echo Tools::encode($this->_text);
         return $this;
     }
 
     public function outEnd($onlyReturn = false) {}
 
-    public function setContent($content)
+    public function setText($text)
     {
-        $this->_content = $content;
+        $this->_text = $text;
         return $this;
     }
 
-    public function getContent()
+    public function getText()
     {
-        return $this->_content;
+        return $this->_text;
     }
 
     /**
@@ -54,7 +49,7 @@ class TextNode extends interfaces\IWebNode
      */
     public function append(interfaces\IElement $what)
     {
-        $this->_content.= $what;
+        $this->_text.= $what;
         return $this;
     }
 
@@ -64,7 +59,7 @@ class TextNode extends interfaces\IWebNode
      */
     public function prepend(interfaces\IElement $what)
     {
-        $this->_content = $what.$this->_content;
+        $this->_text = $what.$this->_text;
         return $this;
     }
 }
