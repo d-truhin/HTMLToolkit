@@ -100,7 +100,7 @@ abstract class IElement
      */
     public function getChildrenList()
     {
-        return $this->_children;
+        return array_values($this->_children);
     }
 
     public function removeChildren(IElement $what)

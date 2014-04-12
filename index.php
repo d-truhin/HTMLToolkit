@@ -24,8 +24,14 @@ $b->out();
 $select = (new HTMLTag('select'))->set('name', 'some_name');
 for($i = 0; $i<5; $i++)
     $select->append((new HTMLTag('option'))->set('value', $i)->append(new TextNode("Option $i")));
-$select->getChildrenList()[6]->append(new TextNode('added'))->parent()->addToAttr('class', 'select_class');
+$select->getChildrenList()[1]->append(new TextNode('added'))->parent()->addToAttr('class', 'select_class');
 $select->outStart();
 (new HTMLTag('option', array('value'=>array('777', '888'))))->append(new TextNode('ALL'))->out();
 $select->outChildrens();
 $select->outEnd();
+
+(new TextNode())->append(new TextNode('before '))->append((new HTMLTag('div'))->append(new TextNode('inner')))->append(new TextNode(' after'))->out();
+
+$span = (new HTMLTag('span'))->append(new TextNode('1<2>3'));
+
+echo $span;

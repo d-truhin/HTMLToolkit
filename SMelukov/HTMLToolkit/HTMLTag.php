@@ -20,6 +20,11 @@ class HTMLTag extends interfaces\IWebNode
      */
     protected $_attributes  = [];
 
+    function __toString()
+    {
+        return strip_tags($this->out(true));
+    }
+
     public function __construct($type, $attributes = array(), $single = false)
     {
         parent::__construct();
@@ -59,7 +64,7 @@ class HTMLTag extends interfaces\IWebNode
         /** @var interfaces\IWebNode $children */
         foreach($this->getChildrenList() as $children)
         {
-            $children->out($onlyReturn);
+            $children->out(false);
         }
         if($onlyReturn)
             return ob_get_clean();
