@@ -171,9 +171,7 @@ class HTMLTag extends interfaces\IWebNode
 
     public function setText($text)
     {
-        /** @var $children interfaces\IElement */
-        foreach($this->getChildrenList() as $children)
-            $this->removeChildren($children);
+        $this->removeAllChildren();
         $this->append(new TextNode($text));
 
         return $this;
@@ -182,5 +180,15 @@ class HTMLTag extends interfaces\IWebNode
     public function getText()
     {
         return strip_tags($this->out(true));
+    }
+
+    public function setHTML($html)
+    {
+        // TODO: Implement setHTML() method.
+    }
+
+    public function getHTML()
+    {
+        return $this->out(true);
     }
 }

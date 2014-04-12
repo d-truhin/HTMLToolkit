@@ -14,23 +14,19 @@ class TextNode extends interfaces\IWebNode
 {
     protected $_text = '';
 
-    public function __construct($content = '')
+    public function __construct($text = '')
     {
         parent::__construct();
-        $this->_text = $content;
+        $this->setText($text);
     }
-
-    public function outStart($onlyReturn = false) {}
 
     public function out($onlyReturn = false)
     {
         if($onlyReturn)
-            return Tools::encode($this->_text);
-        echo Tools::encode($this->_text);
+            return $this->getText();
+        echo $this->getText();
         return $this;
     }
-
-    public function outEnd($onlyReturn = false) {}
 
     public function setText($text)
     {
@@ -40,7 +36,7 @@ class TextNode extends interfaces\IWebNode
 
     public function getText()
     {
-        return $this->_text;
+        return Tools::encode($this->_text);
     }
 
     /**
@@ -61,5 +57,15 @@ class TextNode extends interfaces\IWebNode
     {
         $this->_text = $what.$this->_text;
         return $this;
+    }
+
+    public function setHTML($html)
+    {
+        $this->setText(strip_tags($html));
+    }
+
+    public function getHTML()
+    {
+        $this->_text;
     }
 }

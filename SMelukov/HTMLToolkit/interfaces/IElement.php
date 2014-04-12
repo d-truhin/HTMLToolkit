@@ -96,10 +96,13 @@ abstract class IElement
     }
 
     /**
+     * @param bool $idInKeys
      * @return IElement[]
      */
-    public function getChildrenList()
+    public function getChildrenList($idInKeys = false)
     {
+        if($idInKeys)
+            return $this->_children;
         return array_values($this->_children);
     }
 
@@ -107,5 +110,14 @@ abstract class IElement
     {
         if(isset($this->_children[$what->getID()]))
             unset($this->_children[$what->getID()]);
+    }
+
+    public function removeAllChildren()
+    {
+        /** @var $children IElement */
+        foreach($this->getChildrenList() as $children)
+            $this->removeChildren($children);
+
+        return $this;
     }
 } 

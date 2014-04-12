@@ -35,5 +35,6 @@ $select->outEnd();
 $span = (new HTMLTag('span'))->append(new TextNode('1<2>3'));
 
 echo $span;
+echo $select->getHTML();
 echo $select->getText();
 $select->setText('text')->out();

@@ -17,9 +17,17 @@ abstract class IWebNode extends interfaces\IElement
         return $this->getText();
     }
 
-    abstract public function outStart($onlyReturn = false);
+    public function outStart($onlyReturn = false)
+    {
+        return $onlyReturn ? '' : $this;
+    }
     abstract public function out($onlyReturn = false);
-    abstract public function outEnd($onlyReturn = false);
+    public function outEnd($onlyReturn = false)
+    {
+        return $onlyReturn ? '' : $this;
+    }
     abstract public function setText($text);
     abstract public function getText();
+    abstract public function setHTML($html);
+    abstract public function getHTML();
 }
