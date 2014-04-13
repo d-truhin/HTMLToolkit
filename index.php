@@ -42,11 +42,12 @@ $select->setText('text')->out();
 (new \SMelukov\HTMLToolkit\NodeGroup('some_name', array(
                                                     new HTMLTag('div'),
                                                     new HTMLTag('div'),
-                                                    new HTMLTag('div'),
+                                                    (new HTMLTag('div'))->set('rel', '2 3'),
                                                     new HTMLTag('div'),
                                                     new HTMLTag('div'))))
                                     ->each( function($element, $index)
                                             {
                                                 /** @var $element HTMLTag */
-                                                $element->setText($index)->out();
+                                                $element->setText($index)->getAttr('rel')->append('1')->switchValue(3,4);
+                                                $element->out();
                                             });

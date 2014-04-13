@@ -20,7 +20,7 @@ class TagAttribute
     {
         $this->_name        = $name;
         $this->_delimiter   = $delimiter;
-        $this->_values      = is_array($values) ? $values : [];
+        $this->append(is_array($values) ? $values : explode($delimiter, $values));
     }
 
     public function setDelimiter($delimiter)

@@ -14,7 +14,7 @@ use SMelukov\HTMLToolkit\interfaces\IWebNode;
 class NodeGroup
 {
     protected $_name = '';
-    /** @var IWebNode[] */
+    /** @var HTMLTag[] */
     protected $_elements = array();
 
     /**
@@ -67,6 +67,10 @@ class NodeGroup
         return $this->_name;
     }
 
+    /**
+     * @param bool $idInKeys
+     * @return HTMLTag[]
+     */
     public function getElementsList($idInKeys = false)
     {
         if($idInKeys)
