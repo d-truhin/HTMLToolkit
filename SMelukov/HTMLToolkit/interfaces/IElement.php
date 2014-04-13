@@ -9,7 +9,7 @@
 namespace SMelukov\HTMLToolkit\interfaces;
 
 
-abstract class IElement
+abstract class IElement extends IHasID
 {
     /**
      * @var IElement null
@@ -17,34 +17,13 @@ abstract class IElement
     protected           $_parent = null;
 
     /**
-     * @var int
-     */
-    protected static    $_next_id   = 0;
-
-    /**
-     * @var int
-     */
-    protected           $_id        = 0;
-
-    /**
      * @var IElement[]
      */
     private             $_children  = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
-        $this->_id = self::$_next_id++;
-    }
-
-    /**
-     * @return int
-     */
-    public function getID()
-    {
-        return $this->_id;
+        parent::__construct();
     }
 
     /**

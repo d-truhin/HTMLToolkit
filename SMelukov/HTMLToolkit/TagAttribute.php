@@ -9,15 +9,18 @@
 namespace SMelukov\HTMLToolkit;
 
 
-class TagAttribute
+use SMelukov\HTMLToolkit\interfaces\IHasID;
+
+class TagAttribute extends IHasID
 {
-    protected   $_name                  = '';
-    protected   $_values                = [];
-    protected   $_delimiter             = ' ';
-    static      $default_delimiter      = ' ';
+    protected           $_name              = '';
+    protected           $_values            = [];
+    protected           $_delimiter         = ' ';
+    static              $default_delimiter  = ' ';
 
     public function __construct($name, $delimiter = ' ', $values = [])
     {
+        parent::__construct();
         $this->_name        = $name;
         $this->_delimiter   = $delimiter;
         $this->append(is_array($values) ? $values : explode($delimiter, $values));

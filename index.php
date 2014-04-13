@@ -7,6 +7,7 @@
  */
 
 use SMelukov\HTMLToolkit\HTMLTag;
+use SMelukov\HTMLToolkit\AttributeGroup;
 use SMelukov\HTMLToolkit\TextNode;
 
 require_once "smelukov_autoload.php";
@@ -39,15 +40,18 @@ echo $select->getHTML();
 echo $select->getText();
 $select->setText('text')->out();
 
-(new \SMelukov\HTMLToolkit\NodeGroup('some_name', array(
+$nodeGroup = (new \SMelukov\HTMLToolkit\NodeGroup('some_name', array(
                                                     new HTMLTag('div'),
                                                     new HTMLTag('div'),
                                                     (new HTMLTag('div'))->set('rel', '2 3'),
                                                     new HTMLTag('div'),
                                                     new HTMLTag('div'))))
-                                    ->each( function($element, $index)
-                                            {
-                                                /** @var $element HTMLTag */
-                                                $element->setText($index)->getAttr('rel')->append('1')->switchValue(3,4);
-                                                $element->out();
-                                            });
+                                            ->each( function($element, $index)
+                                                    {
+                                                        /** @var $element HTMLTag */
+                                                        $element->setText($index)->getAttr('rel')->append('1')->switchValue(3,4);
+                                                    });
+
+$nodeGroup->getAttr('rel')->switchValue(4,0)->switchValue(1,2);
+
+$nodeGroup->each()->out();
