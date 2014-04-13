@@ -38,3 +38,15 @@ echo $span;
 echo $select->getHTML();
 echo $select->getText();
 $select->setText('text')->out();
+
+(new \SMelukov\HTMLToolkit\NodeGroup('some_name', array(
+                                                    new HTMLTag('div'),
+                                                    new HTMLTag('div'),
+                                                    new HTMLTag('div'),
+                                                    new HTMLTag('div'),
+                                                    new HTMLTag('div'))))
+                                    ->each( function($element, $index)
+                                            {
+                                                /** @var $element HTMLTag */
+                                                $element->setText($index)->out();
+                                            });
