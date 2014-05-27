@@ -26,7 +26,6 @@ class HTMLTag extends interfaces\IWebNode
         $this->_type = $type;
         foreach(is_array($attributes) ? $attributes : [] as $attrName=>$attrValue)
             $this->set($attrName, $attrValue);
-        $this->_attributes;
         $this->_single = $single;
     }
 
@@ -110,7 +109,7 @@ class HTMLTag extends interfaces\IWebNode
     public function get($name, $default = '')
     {
         if(!isset($this->_attributes[$name]))
-            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::$default_delimiter, [$default]);
+            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::DEFAULT_DELIMITER, [$default]);
 
         return $this->_attributes[$name]->format();
     }
@@ -123,7 +122,7 @@ class HTMLTag extends interfaces\IWebNode
             $this->_attributes[$name]->append($value);
         }
         else
-            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::$default_delimiter, (is_array($value) ? $value : [$value]));
+            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::DEFAULT_DELIMITER, (is_array($value) ? $value : [$value]));
 
         return $this;
     }
@@ -131,7 +130,7 @@ class HTMLTag extends interfaces\IWebNode
     public function addToAttr($name, $value)
     {
         if(!isset($this->_attributes[$name]))
-            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::$default_delimiter, (is_array($value) ? $value : [$value]));
+            $this->_attributes[$name] = new TagAttribute($name, TagAttribute::DEFAULT_DELIMITER, (is_array($value) ? $value : [$value]));
         else
             $this->_attributes[$name]->append($value);
 

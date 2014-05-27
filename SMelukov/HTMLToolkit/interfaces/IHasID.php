@@ -14,7 +14,7 @@ abstract class IHasID
     /**
      * @var string
      */
-    protected           $_id        = 0;
+    protected           $_id        = "";
 
     public function __construct()
     {

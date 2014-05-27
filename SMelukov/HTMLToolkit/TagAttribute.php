@@ -13,12 +13,12 @@ use SMelukov\HTMLToolkit\interfaces\IHasID;
 
 class TagAttribute extends IHasID
 {
-    protected           $_name              = '';
-    protected           $_values            = [];
-    protected           $_delimiter         = ' ';
-    static              $default_delimiter  = ' ';
+    protected   $_name              = '';
+    protected   $_values            = [];
+    protected   $_delimiter         = self::DEFAULT_DELIMITER;
+    const       DEFAULT_DELIMITER   = ' ';
 
-    public function __construct($name, $delimiter = ' ', $values = [])
+    public function __construct($name, $delimiter = self::DEFAULT_DELIMITER, $values = [])
     {
         parent::__construct();
         $this->_name        = $name;
@@ -82,11 +82,12 @@ class TagAttribute extends IHasID
         return $this;
     }
 
-    public function switchValue($from, $to)
+    public function switchValue($from, $to, $ignoreCase = false)
     {
+        $cmpFunc = $ignoreCase?"strcasecmp":"strcmp";
         foreach($this->_values as &$val)
         {
-            if(!strcmp($val, $from))
+            if(!$cmpFunc($val, $from))
                 $val = $to;
         }
         unset($val);

@@ -7,7 +7,6 @@
  */
 
 use SMelukov\HTMLToolkit\HTMLTag;
-use SMelukov\HTMLToolkit\AttributeGroup;
 use SMelukov\HTMLToolkit\TextNode;
 
 require_once "smelukov_autoload.php";

@@ -9,8 +9,6 @@
 namespace SMelukov\HTMLToolkit\interfaces;
 
 
-use SMelukov\HTMLToolkit\HTMLTag;
-
 abstract class IGroup
 {
     protected $_name = '';
@@ -74,7 +72,7 @@ abstract class IGroup
     {
         if($idInKeys)
             return $this->_elements;
-        return $this->_elements;
+        return array_values($this->_elements);
     }
 
     public function addElements($elements)
