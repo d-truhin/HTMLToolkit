@@ -12,22 +12,17 @@ namespace SMelukov\HTMLToolkit\interfaces;
 abstract class IHasID
 {
     /**
-     * @var int
-     */
-    protected static    $_next_id   = 0;
-
-    /**
-     * @var int
+     * @var string
      */
     protected           $_id        = 0;
 
     public function __construct()
     {
-        $this->_id = self::$_next_id++;
+        $this->_id = str_replace("." , "", uniqid(get_class($this)."_", true));
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getID()
     {

@@ -30,7 +30,6 @@ $select->outStart();
 (new HTMLTag('option', array('value'=>array('777', '888'))))->append(new TextNode('ALL'))->out();
 $select->outChildrens();
 $select->outEnd();
-
 (new TextNode())->append(new TextNode('before '))->append((new HTMLTag('div'))->append(new TextNode('inner')))->append(new TextNode(' after'))->out();
 
 $span = (new HTMLTag('span'))->append(new TextNode('1<2>3'));
