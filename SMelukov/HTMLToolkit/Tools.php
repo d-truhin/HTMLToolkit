@@ -18,4 +18,12 @@ class Tools
 
         return htmlspecialchars($content, $flags);
     }
+
+    static public function decode($content, $flags = false)
+    {
+        if($flags == false)
+            $flags = ENT_QUOTES | ENT_HTML401;
+
+        return html_entity_decode($content, $flags);
+    }
 } 
