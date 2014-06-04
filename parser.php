@@ -13,13 +13,15 @@ class Context
     const IN_CLOSE_ATTR_NAME    = 301;
     const IN_CLOSE_ATTR_VALUE   = 302;
 
-    public $content = '';
-    public $start   = -1;
-    public $end     = -1;
+    public $isAttrib    = false;
+    public $content     = '';
+    public $attrib      = '';
+    public $start       = -1;
+    public $end         = -1;
     public $type;
 }
 
-$html = new String("-1<div>123<b>4&lt;5&gt;6</b>789</div>000");
+$html = new String('<b class="more_class" rel="1,7"><i> еще привет&lt;div&gt;123&lt;/div&gt;&amp;lt &amp;lt;</i></b><select name="some_name" class="select_class"><option value="777 888">ALL</option><option value="0">Option 0</option><option value="1">Option 1added</option><option value="2">Option 2</option><option value="3">Option 3</option><option value="4">Option 4</option></select>before inner after1&lt;2&gt;3<select name="some_name" class="select_class"><option value="0">Option 0</option><option value="1">Option 1added</option><option value="2">Option 2</option><option value="3">Option 3</option><option value="4">Option 4</option></select>Option 0Option 1addedOption 2Option 3Option 4<select name="some_name" class="select_class">text</select><div rel="2">0</div><div rel="2">1</div><div rel="2 0 2">2</div><div rel="2">3</div><div rel="2">4</div>');
 
 $startCnt = new Context();
 $startCnt->type = $startCnt::IN_CONTENT;
@@ -81,9 +83,16 @@ foreach($html as $key=>$char)
                             $context[]=$cnt;
                             $currentCnt = $cnt;
                         }
+                        elseif($char === ' ' && !$currentCnt->isAttrib)
+                        {
+                            $currentCnt->isAttrib = true;
+                        }
                         break;
                 }
-                $currentCnt->content.=$char;
+                if($currentCnt->isAttrib)
+                    $currentCnt->attrib.=$char;
+                else
+                    $currentCnt->content.=$char;
             }
             break;
     }
@@ -102,6 +111,34 @@ foreach($context as $cnt)
     {
         case Context::IN_OPEN_TAG:
             $tag = new \SMelukov\HTMLToolkit\HTMLTag($cnt->content);
+            $cnt->attrib = trim($cnt->attrib);
+            preg_match_all('|(\w+\s*=\s*([\'\"]).*?\2)|', $cnt->attrib, $attribs);
+            if(isset($attribs) && is_array($attribs) && count($attribs)>1)
+            {
+                array_pop($attribs);
+                array_shift($attribs);
+            }
+
+            foreach($attribs[0] as $attr)
+            {
+                list($aName, $aVal) = explode('=', $attr);
+                $aName = trim($aName);
+                $aVal = trim($aVal);
+                if($aVal[0]=='\'' || $aVal[0]=='"')
+                    $aVal = str_replace($aVal[0] , '', $aVal);
+                $tag->set($aName, $aVal);
+            }
+            $cnt->attrib = trim(preg_replace('|\s+|', ' ', preg_replace('|\w+\s*=\s*([\'\"]).*?\1|', ' ', $cnt->attrib)));
+            $exploded = explode(' ', $cnt->attrib);
+            if(is_array($exploded) && $exploded)
+            {
+                foreach($exploded as $attr)
+                {
+                    if($attr)
+                        $tag->set(trim($attr), '');
+                }
+            }
+
             $pointer->append($tag);
             $pointer = $tag;
             break;
