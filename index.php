@@ -53,3 +53,38 @@ $nodeGroup = (new \SMelukov\HTMLToolkit\NodeGroup('some_name', array(
 $nodeGroup->getAttr('rel')->switchValue(4,0)->switchValue(1,2);
 
 $nodeGroup->each()->out();
+echo '111';
+$domd = new DOMDocument();
+$domd->loadHTML("<div class=\"c1\">123<b>456</b>789</div>");
+
+function rec($domd)
+{
+    /** @var $cn DOMElement */
+    foreach($domd->childNodes as $cn)
+    {
+        switch($cn->nodeType)
+        {
+            case XML_TEXT_NODE:
+                echo "TEXT:<br>===================<br>$cn->textContent<br>===================<br>";
+                break;
+            default:
+                echo "TAG:<br>$cn->tagName<br>";
+                if ($cn->hasAttributes())
+                {
+                    foreach ($cn->attributes as $attr)
+                    {
+                        $name = $attr->nodeName;
+                        $value = $attr->nodeValue;
+                        echo "ATTR:$name :: $value<br>";
+                    }
+                    echo "<br>";
+                }
+
+                if($cn->hasChildNodes())
+                    rec($cn);
+                break;
+        }
+    }
+}
+
+rec($domd->documentElement);
