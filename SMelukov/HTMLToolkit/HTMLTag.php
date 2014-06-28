@@ -9,7 +9,7 @@ use SMelukov\HTMLToolkit\interfaces;
  * Time: 21:12
  *
  * @method HTMLTag parent();
- * @method interfaces\IWebNode getChildrenList();
+ * @method interfaces\IWebNode getChildrenList($idInKeys = false);
  */
 class HTMLTag extends interfaces\IWebNode
 {
