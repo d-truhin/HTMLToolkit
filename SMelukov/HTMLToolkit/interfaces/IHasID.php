@@ -18,7 +18,15 @@ abstract class IHasID
 
     public function __construct()
     {
-        $this->_id = str_replace("." , "", uniqid(get_class($this)."_", true));
+        $this->_id = $this->UID();
+    }
+
+    /**
+     * @return string
+     */
+    public static function UID()
+    {
+        return str_replace("." , "", uniqid(get_called_class()."_", true));
     }
 
     /**

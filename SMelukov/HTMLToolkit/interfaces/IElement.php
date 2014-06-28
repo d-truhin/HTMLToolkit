@@ -26,6 +26,8 @@ abstract class IElement extends IHasID
         parent::__construct();
     }
 
+    abstract function __clone();
+
     /**
      * @return $this
      */
@@ -53,22 +55,26 @@ abstract class IElement extends IHasID
 
     /**
      * @param IElement $what
+     * @param bool $clone
      * @return $this
      */
-    public function append(IElement $what)
+    public function append(IElement $what, $clone = false)
     {
-        $this->_children[$what->getID()] = $what;
-        $what->_parent = $this;
+        $temp = $clone ? clone $what : $what;
+        $this->_children[$temp->getID()] = $temp;
+        $temp->_parent = $this;
         return $this;
     }
 
     /**
      * @param IElement $what
+     * @param bool $clone
      * @return $this
      */
-    public function prepend(IElement $what)
+    public function prepend(IElement $what, $clone = false)
     {
-        $this->append($what);
+        $temp = $clone ? clone $what : $what;
+        $this->append($temp);
         $last = array_pop($this->_children);
         array_unshift($this->_children, $last);
         return $this;

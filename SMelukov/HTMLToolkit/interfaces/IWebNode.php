@@ -17,6 +17,17 @@ abstract class IWebNode extends interfaces\IElement
         return $this->getText();
     }
 
+    function __clone()
+    {
+        $this->_id = $this->UID();
+        $this->remove();
+        $children = $this->getChildrenList();
+        $this->removeAllChildren();
+        if($children)
+            foreach($children as $childrenItem)
+                $this->append(clone $childrenItem);
+    }
+
     public function outStart($onlyReturn = false)
     {
         return $onlyReturn ? '' : $this;

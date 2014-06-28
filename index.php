@@ -6,6 +6,8 @@
  * Time: 21:26
  */
 
+error_reporting(E_ALL^E_STRICT);
+
 use SMelukov\HTMLToolkit\HTMLTag;
 use SMelukov\HTMLToolkit\TextNode;
 
@@ -44,7 +46,7 @@ $nodeGroup = (new \SMelukov\HTMLToolkit\NodeGroup('some_name', array(
                                                     (new HTMLTag('div'))->set('rel', '2 3'),
                                                     new HTMLTag('div'),
                                                     new HTMLTag('div'))))
-                                            ->each( function($element, $index)
+                                            ->each(function ($element, $index)
                                                     {
                                                         /** @var $element HTMLTag */
                                                         $element->setText($index)->getAttr('rel')->append('1')->switchValue(3,4);
@@ -53,6 +55,17 @@ $nodeGroup = (new \SMelukov\HTMLToolkit\NodeGroup('some_name', array(
 $nodeGroup->getAttr('rel')->switchValue(4,0)->switchValue(1,2);
 
 $nodeGroup->each()->out();
+
+$a = new HTMLTag('div');
+$t1 = (new HTMLTag('div'))->setText('текст 1')->set('class', 'c1');
+$t2 = (new HTMLTag('div'))->setText('текст 2')->set('class', 'c2');
+$a->append($t1)->append($t2);
+$b = (new HTMLTag('div'))->append($t1, false)->append($t2, false);
+$b->getChildrenList()[0]->setText('текст 3')->set('class', 'c3');
+$b->getChildrenList()[1]->setText('текст 4')->set('class', 'c4');
+
+$a->out();
+$b->out();
 echo '111';
 $domd = new DOMDocument();
 $domd->loadHTML("<div class=\"c1\">123<b>456</b>789</div>");
