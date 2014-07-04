@@ -10,6 +10,7 @@ error_reporting(E_ALL^E_STRICT);
 
 use SMelukov\HTMLToolkit\HTMLTag;
 use SMelukov\HTMLToolkit\TextNode;
+use SMelukov\HTMLToolkit\Tools\HTMLParser;
 
 require_once "smelukov_autoload.php";
 
@@ -66,38 +67,11 @@ $b->getChildrenList()[1]->setText('текст 4')->set('class', 'c4');
 
 $a->out();
 $b->out();
-echo '111';
-$domd = new DOMDocument();
-$domd->loadHTML("<div class=\"c1\">123<b>456</b>789</div>");
+echo '<br>=============================<br>';
 
-function rec($domd)
-{
-    /** @var $cn DOMElement */
-    foreach($domd->childNodes as $cn)
-    {
-        switch($cn->nodeType)
-        {
-            case XML_TEXT_NODE:
-                echo "TEXT:<br>===================<br>$cn->textContent<br>===================<br>";
-                break;
-            default:
-                echo "TAG:<br>$cn->tagName<br>";
-                if ($cn->hasAttributes())
-                {
-                    foreach ($cn->attributes as $attr)
-                    {
-                        $name = $attr->nodeName;
-                        $value = $attr->nodeValue;
-                        echo "ATTR:$name :: $value<br>";
-                    }
-                    echo "<br>";
-                }
 
-                if($cn->hasChildNodes())
-                    rec($cn);
-                break;
-        }
-    }
-}
-
-rec($domd->documentElement);
+(new HTMLTag('div'))->setHTML("<div class=\"c1\">123<b>456</b>789</div><div>d1</div><div>d2</div><div>d3</div>")->out();
+HTMLParser::parse("<div class=\"c1\">123<b>456</b>789</div><div>d1</div><div>d2</div><div>еще текст</div>")->set('rel', '111')->out();
+HTMLParser::parse("привет")->set('rel', '111')->out();
+$yandex = HTMLParser::parse(file_get_contents("http://ya.ru"))->out();
+echo '1';

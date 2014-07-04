@@ -1,6 +1,7 @@
 <?php
 namespace SMelukov\HTMLToolkit;
 use SMelukov\HTMLToolkit\interfaces;
+use SMelukov\HTMLToolkit\Tools\HTMLParser;
 
 /**
  * Created by PhpStorm.
@@ -9,7 +10,7 @@ use SMelukov\HTMLToolkit\interfaces;
  * Time: 21:12
  *
  * @method HTMLTag parent();
- * @method interfaces\IWebNode getChildrenList($idInKeys = false);
+ * @method interfaces\IWebNode[] getChildrenList($idInKeys = false);
  */
 class HTMLTag extends interfaces\IWebNode
 {
@@ -181,13 +182,25 @@ class HTMLTag extends interfaces\IWebNode
         return strip_tags($this->out(true));
     }
 
-    public function setHTML($html)
+    public function setHTML($html, $rewrite = true)
     {
-        // TODO: Implement setHTML() method.
+        if($rewrite)
+            $this->removeAllChildren();
+        $this->parseStart();
+            echo $html;
+        $this->parseEnd();
+        return $this;
     }
 
     public function getHTML()
     {
         return $this->out(true);
+    }
+
+    protected function parseProcess($source)
+    {
+        foreach(HTMLParser::parse($source)->getElementsList() as $element)
+            $this->append($element);
+        return $this;
     }
 }

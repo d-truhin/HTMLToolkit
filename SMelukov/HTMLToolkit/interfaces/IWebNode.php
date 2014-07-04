@@ -41,4 +41,28 @@ abstract class IWebNode extends interfaces\IElement
     abstract public function getText();
     abstract public function setHTML($html);
     abstract public function getHTML();
+
+    public final function parseStart()
+    {
+        ob_start();
+        return $this;
+    }
+    public final function parserGetData()
+    {
+        if(ob_get_level())
+        {
+            $parserResult = ob_get_contents();
+            $this->parseProcess($parserResult);
+            ob_clean();
+        }
+        return $this;
+    }
+    public final function parseEnd()
+    {
+        $this->parserGetData();
+        ob_end_clean();
+        return $this;
+    }
+
+    abstract protected function parseProcess($source);
 }

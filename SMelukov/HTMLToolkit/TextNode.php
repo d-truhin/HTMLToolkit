@@ -68,4 +68,9 @@ class TextNode extends interfaces\IWebNode
     {
         $this->_text;
     }
+
+    protected function parseProcess($source)
+    {
+        $this->setHTML($source);
+    }
 }

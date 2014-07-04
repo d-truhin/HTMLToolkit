@@ -29,7 +29,7 @@ abstract class IElement extends IHasID
     abstract function __clone();
 
     /**
-     * @return $this
+     * @return IWebNode
      */
     public function parent()
     {
@@ -47,10 +47,7 @@ abstract class IElement extends IHasID
     public function remove()
     {
         if($this->_parent != null)
-        {
-            $this->_parent->removeChildren($this);
             $this->_parent = null;
-        }
     }
 
     /**
@@ -94,7 +91,10 @@ abstract class IElement extends IHasID
     public function removeChildren(IElement $what)
     {
         if(isset($this->_children[$what->getID()]))
+        {
+            $this->_children[$what->getID()]->remove();
             unset($this->_children[$what->getID()]);
+        }
     }
 
     public function removeAllChildren()
