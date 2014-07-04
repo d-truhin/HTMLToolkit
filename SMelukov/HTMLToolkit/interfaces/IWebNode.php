@@ -60,7 +60,8 @@ abstract class IWebNode extends interfaces\IElement
     public final function parseEnd()
     {
         $this->parserGetData();
-        ob_end_clean();
+        if(ob_get_level())
+            ob_end_clean();
         return $this;
     }
 

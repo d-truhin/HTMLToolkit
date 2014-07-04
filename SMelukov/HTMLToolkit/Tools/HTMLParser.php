@@ -43,6 +43,23 @@ class HTMLParser
         return $nodeGroup;
     }
 
+    public static function parseStart()
+    {
+        ob_start();
+    }
+
+    /**
+     * @return NodeGroup
+     */
+    public static function parseEnd()
+    {
+        $parserResult = '';
+        if(ob_get_level())
+            $parserResult = ob_get_clean();
+
+        return self::parse($parserResult);
+    }
+
     /**
      * @param DOMElement $domRoot
      * @param HTMLTag $parentTag

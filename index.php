@@ -73,5 +73,15 @@ echo '<br>=============================<br>';
 (new HTMLTag('div'))->setHTML("<div class=\"c1\">123<b>456</b>789</div><div>d1</div><div>d2</div><div>d3</div>")->out();
 HTMLParser::parse("<div class=\"c1\">123<b>456</b>789</div><div>d1</div><div>d2</div><div>еще текст</div>")->set('rel', '111')->out();
 HTMLParser::parse("привет")->set('rel', '111')->out();
-$yandex = HTMLParser::parse(file_get_contents("http://ya.ru"))->out();
+
+$tag = (new HTMLTag('div'))->set('class', 'global')->parseStart();?>
+    <div class="c1">123
+        <b>456</b>789
+    </div>
+    <div>d1</div>
+    <div>d2</div>
+    <div>d3</div><?
+$tag->parseEnd()->out();
+
+//$yandex = HTMLParser::parse(file_get_contents("http://ya.ru"))->out();
 echo '1';
