@@ -19,6 +19,8 @@ class NodeGroup extends IGroup
 {
 
     /**
+     * Get attribute group from all elements attributes
+     *
      * @param $name
      * @return TagAttribute
      */
@@ -26,7 +28,7 @@ class NodeGroup extends IGroup
     {
         $attrGroup = new AttributeGroup($name);
         /** @var $element HTMLTag */
-        foreach($this->_elements as $element)
+        foreach ($this->_elements as $element)
             $attrGroup->addElements($element->getAttr($name));
         return $attrGroup;
     }

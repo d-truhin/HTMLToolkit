@@ -16,4 +16,5 @@ use SMelukov\HTMLToolkit\interfaces\IGroup;
  * @method TagAttribute each($callback = null);
  */
 class AttributeGroup extends IGroup
-{}
+{
+}
