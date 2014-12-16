@@ -3,4 +3,3 @@ phing.xml
 exclude
 SMelukov/HTMLToolkit/tests
 composer.json
-composer.lock

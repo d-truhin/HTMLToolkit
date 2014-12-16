@@ -146,4 +146,11 @@ abstract class IWebNode extends interfaces\IElement
      * @return mixed
      */
     abstract protected function parseProcess($source);
+
+    /**
+     * Get type of the node
+     *
+     * @return mixed
+     */
+    abstract function getType();
 }

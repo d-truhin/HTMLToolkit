@@ -24,7 +24,7 @@ abstract class IGroup
 
     /**
      * @param string $name name of the group
-     * @param IHasID[] $elements elements which will be added to this group
+     * @param IHasID[]|IHasID $elements elements which will be added to this group
      */
     public function __construct($name, $elements = [])
     {
@@ -38,7 +38,7 @@ abstract class IGroup
     }
 
     /**
-     * Call some function for all element in the group
+     * Call some method for all element in the group
      *
      * @param $name
      * @param $arguments

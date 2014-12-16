@@ -5,6 +5,9 @@
  * Date: 16.12.14
  * Time: 2:48
  */
+
+namespace SMelukov\HTMLToolkit\Tags;
+
 use SMelukov\HTMLToolkit\HTMLTag;
 
 /**
@@ -12,6 +15,12 @@ use SMelukov\HTMLToolkit\HTMLTag;
  */
 class Option extends HTMLTag
 {
+    public function __construct($value = '', $text = '')
+    {
+        parent::__construct('option', [], false);
+        $this->set('value', $value)->setText($text);
+    }
+
     /**
      * Get value of option
      *
@@ -30,5 +39,20 @@ class Option extends HTMLTag
     function selected()
     {
         return $this->get('selected');
+    }
+
+    /**
+     * Set the option as selected
+     *
+     * @param $isSelected
+     * @return $this
+     */
+    function setSelected($isSelected)
+    {
+        if (!$isSelected)
+            $this->unsetAttr('selected');
+        else
+            $this->getAttr('selected')->append('selected');
+        return $this;
     }
 }

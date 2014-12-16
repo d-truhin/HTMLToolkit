@@ -83,9 +83,9 @@ abstract class IElement extends IHasID
      */
     public function append(IElement $what, $clone = false)
     {
-        $temp          = $clone ? clone $what : $what->remove();
+        $temp                            = $clone ? clone $what : $what->remove();
         $this->_children[$temp->getID()] = $temp;
-        $temp->_parent = $this;
+        $temp->_parent                   = $this;
         return $this;
     }
 

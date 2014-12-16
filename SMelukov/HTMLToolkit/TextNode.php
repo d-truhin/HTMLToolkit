@@ -48,14 +48,14 @@ class TextNode extends interfaces\IWebNode
     }
 
     /** {@inheritdoc} */
-    public function append(interfaces\IElement $what)
+    public function append(interfaces\IElement $what, $clone = false)
     {
         $this->_text .= $what;
         return $this;
     }
 
     /** {@inheritdoc} */
-    public function prepend(interfaces\IElement $what)
+    public function prepend(interfaces\IElement $what, $clone = false)
     {
         $this->_text = $what . $this->_text;
         return $this;
@@ -65,6 +65,12 @@ class TextNode extends interfaces\IWebNode
     public function getHTML()
     {
         $this->_text;
+    }
+
+    /** {@inheritdoc} */
+    function getType()
+    {
+        // TODO: Implement getType() method.
     }
 
     /** {@inheritdoc} */

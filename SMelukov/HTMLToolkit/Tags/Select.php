@@ -5,16 +5,21 @@
  * Date: 16.12.14
  * Time: 2:47
  */
-use SMelukov\HTMLToolkit\interfaces\IWebNode;
+
+namespace SMelukov\HTMLToolkit\Tags;
+
+use SMelukov\HTMLToolkit\HTMLTag;
 
 
 /**
  * Simple "select" tag realization
  */
-class Select extends \SMelukov\HTMLToolkit\HTMLTag
+class Select extends HTMLTag
 {
-    /** @var Option[] */
-    protected $_options = [];
+    public function __construct()
+    {
+        parent::__construct('select', [], false);
+    }
 
     /**
      * Get selected options
@@ -24,8 +29,23 @@ class Select extends \SMelukov\HTMLToolkit\HTMLTag
     function getSelected()
     {
         $res = [];
-        foreach ($this->_options as $option) {
+        foreach ($this->getOptions() as $option) {
             if ($option->selected())
+                $res[] = $option;
+        }
+        return $res;
+    }
+
+    /**
+     * Get list of all options of the select
+     *
+     * @return Option[]
+     */
+    function getOptions()
+    {
+        $res = [];
+        foreach ($this->getChildrenList() as $option) {
+            if ($option instanceof Option)
                 $res[] = $option;
         }
         return $res;
@@ -39,7 +59,7 @@ class Select extends \SMelukov\HTMLToolkit\HTMLTag
      */
     function addOption($option)
     {
-        $this->_options[$option->getId()] = $option;
+        $this->append($option);
         return $this;
     }
 
@@ -51,18 +71,7 @@ class Select extends \SMelukov\HTMLToolkit\HTMLTag
      */
     function removeOption($option)
     {
-        if (isset($this->_options[$option->getId()]))
-            unset($this->_options[$option->getId()]);
+        $this->removeChildren($option);
         return $this;
-    }
-
-    /**
-     * Get list of all options of the select
-     *
-     * @return IWebNode[]
-     */
-    function getOptions()
-    {
-        return $this->getChildrenList();
     }
 }
