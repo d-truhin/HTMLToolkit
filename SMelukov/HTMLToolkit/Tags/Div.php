@@ -10,16 +10,20 @@ namespace SMelukov\HTMLToolkit\Tags;
 
 use SMelukov\HTMLToolkit\HTMLTag;
 use SMelukov\HTMLToolkit\NodeGroup;
+use SMelukov\HTMLToolkit\TextNode;
 
 
 /**
  * Simple "select" tag realization
  */
-class Select extends HTMLTag
+class Div extends HTMLTag
 {
-    public function __construct()
+    public function __construct($content)
     {
-        parent::__construct('select', [], false);
+        if (is_scalar($content))
+            $content = new TextNode($content);
+        parent::__construct('div', [], false);
+        $this->append($content);
     }
 
     /**
