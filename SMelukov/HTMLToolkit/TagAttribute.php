@@ -13,35 +13,43 @@ use SMelukov\HTMLToolkit\interfaces\IHasID;
 
 class TagAttribute extends IHasID
 {
-    protected   $_name              = '';
-    protected   $_values            = [];
-    protected   $_delimiter         = self::DEFAULT_DELIMITER;
-    const       DEFAULT_DELIMITER   = ' ';
+    const       DEFAULT_DELIMITER = ' ';
+    protected $_name      = '';
+    protected $_values    = [];
+    protected $_delimiter = self::DEFAULT_DELIMITER;
 
     public function __construct($name, $delimiter = self::DEFAULT_DELIMITER, $values = [])
     {
         parent::__construct();
-        $this->_name        = $name;
-        $this->_delimiter   = $delimiter;
+        $this->_name      = $name;
+        $this->_delimiter = $delimiter;
         $this->append(is_array($values) ? $values : explode($delimiter, $values));
     }
 
-    public function setDelimiter($delimiter)
+    public function append($value)
     {
-        $this->_delimiter = $delimiter;
-        if(!empty($this->_values))
-        {
-            $newValues = [];
-            foreach($this->_values as $val)
-                $newValues+= explode($delimiter, $val);
-            $this->_values = $newValues;
+        foreach (is_array($value) ? $value : [$value] as $val) {
+            foreach (explode($this->_delimiter, $val) as $el)
+                array_push($this->_values, $el);
         }
         return $this;
     }
 
     public function getDelimiter()
     {
-       return $this->_delimiter;
+        return $this->_delimiter;
+    }
+
+    public function setDelimiter($delimiter)
+    {
+        $this->_delimiter = $delimiter;
+        if (!empty($this->_values)) {
+            $newValues = [];
+            foreach ($this->_values as $val)
+                $newValues += explode($delimiter, $val);
+            $this->_values = $newValues;
+        }
+        return $this;
     }
 
     public function getValues()
@@ -49,21 +57,10 @@ class TagAttribute extends IHasID
         return $this->_values;
     }
 
-    public function append($value)
-    {
-        foreach(is_array($value) ? $value : [$value] as $val)
-        {
-            foreach(explode($this->_delimiter, $val) as $el)
-                array_push($this->_values, $el);
-        }
-        return $this;
-    }
-
     public function prepend($value)
     {
-        foreach(is_array($value) ? $value : [$value] as $val)
-        {
-            foreach(explode($this->_delimiter, $val) as $el)
+        foreach (is_array($value) ? $value : [$value] as $val) {
+            foreach (explode($this->_delimiter, $val) as $el)
                 array_unshift($this->_values, $el);
         }
         return $this;
@@ -84,10 +81,9 @@ class TagAttribute extends IHasID
 
     public function switchValue($from, $to, $ignoreCase = false)
     {
-        $cmpFunc = $ignoreCase?"strcasecmp":"strcmp";
-        foreach($this->_values as &$val)
-        {
-            if(!$cmpFunc($val, $from))
+        $cmpFunc = $ignoreCase ? "strcasecmp" : "strcmp";
+        foreach ($this->_values as &$val) {
+            if (!$cmpFunc($val, $from))
                 $val = $to;
         }
         unset($val);
@@ -98,7 +94,7 @@ class TagAttribute extends IHasID
     public function format($encode = true)
     {
         $_temp = implode($this->_delimiter, $this->_values);
-        if($encode)
+        if ($encode)
             $_temp = Tools::encode($_temp);
 
         return $_temp;

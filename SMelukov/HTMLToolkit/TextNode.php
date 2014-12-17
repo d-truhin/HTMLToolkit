@@ -1,5 +1,6 @@
 <?php
 namespace SMelukov\HTMLToolkit;
+
 use SMelukov\HTMLToolkit\interfaces;
 
 /**
@@ -12,60 +13,75 @@ use SMelukov\HTMLToolkit\interfaces;
  */
 class TextNode extends interfaces\IWebNode
 {
+    /**
+     * @var string
+     */
     protected $_text = '';
 
+    /** {@inheritdoc} */
     public function __construct($text = '')
     {
         parent::__construct();
         $this->setText($text);
     }
 
+    /** {@inheritdoc} */
     public function out($onlyReturn = false)
     {
-        if($onlyReturn)
+        if ($onlyReturn)
             return $this->getText();
         echo $this->getText();
         return $this;
     }
 
+    /** {@inheritdoc} */
+    public function getText()
+    {
+        return Tools::encode($this->_text);
+    }
+
+    /** {@inheritdoc} */
     public function setText($text)
     {
         $this->_text = $text;
         return $this;
     }
 
-    public function getText()
+    /** {@inheritdoc} */
+    public function append(interfaces\IElement $what, $clone = false)
     {
-        return Tools::encode($this->_text);
-    }
-
-    /**
-     * @param interfaces\IElement $what
-     * @return $this
-     */
-    public function append(interfaces\IElement $what)
-    {
-        $this->_text.= $what;
+        $this->_text .= $what;
         return $this;
     }
 
-    /**
-     * @param interfaces\IElement $what
-     * @return $this
-     */
-    public function prepend(interfaces\IElement $what)
+    /** {@inheritdoc} */
+    public function prepend(interfaces\IElement $what, $clone = false)
     {
-        $this->_text = $what.$this->_text;
+        $this->_text = $what . $this->_text;
         return $this;
     }
 
-    public function setHTML($html)
-    {
-        $this->setText(strip_tags($html));
-    }
-
+    /** {@inheritdoc} */
     public function getHTML()
     {
         $this->_text;
+    }
+
+    /** {@inheritdoc} */
+    function getType()
+    {
+        // TODO: Implement getType() method.
+    }
+
+    /** {@inheritdoc} */
+    protected function parseProcess($source)
+    {
+        $this->setHTML($source);
+    }
+
+    /** {@inheritdoc} */
+    public function setHTML($html)
+    {
+        $this->setText(strip_tags($html));
     }
 }

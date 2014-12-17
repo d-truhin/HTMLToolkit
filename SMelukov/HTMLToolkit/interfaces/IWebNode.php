@@ -7,38 +7,150 @@
  */
 
 namespace SMelukov\HTMLToolkit\interfaces;
+
 use SMelukov\HTMLToolkit\interfaces;
 
 
+/**
+ * Base class which implements a web node behavior
+ *
+ * @package SMelukov\HTMLToolkit\interfaces
+ */
 abstract class IWebNode extends interfaces\IElement
 {
+    /**
+     * @return mixed
+     */
     public function __toString()
     {
         return $this->getText();
     }
 
+    /**
+     * Get node content as text
+     *
+     * @return mixed
+     */
+    abstract public function getText();
+
+    /**
+     *
+     */
     function __clone()
     {
         $this->_id = $this->UID();
         $this->remove();
         $children = $this->getChildrenList();
         $this->removeAllChildren();
-        if($children)
-            foreach($children as $childrenItem)
+        if ($children)
+            foreach ($children as $childrenItem)
                 $this->append(clone $childrenItem);
     }
 
+    /**
+     * Output open part of node
+     *
+     * @param bool $onlyReturn return as a string or not
+     * @return IWebNode|string
+     */
     public function outStart($onlyReturn = false)
     {
         return $onlyReturn ? '' : $this;
     }
+
+    /**
+     * Output node content with open & close parts
+     *
+     * @param bool $onlyReturn
+     * @return mixed
+     */
     abstract public function out($onlyReturn = false);
+
+    /**
+     * Output close part of node
+     *
+     * @param bool $onlyReturn return as a string or not
+     * @return IWebNode|string
+     */
     public function outEnd($onlyReturn = false)
     {
         return $onlyReturn ? '' : $this;
     }
+
+    /**
+     * Set text for node
+     *
+     * @param $text
+     * @return mixed
+     */
     abstract public function setText($text);
-    abstract public function getText();
+
+    /**
+     * Set html for node
+     *
+     * @param $html
+     * @return mixed
+     */
     abstract public function setHTML($html);
+
+    /**
+     * Get node content as HTML
+     *
+     * @return mixed
+     */
     abstract public function getHTML();
+
+    /**
+     * Start parsing process for the node
+     *
+     * @return $this
+     */
+    public final function parseStart()
+    {
+        ob_start();
+        return $this;
+    }
+
+    /**
+     * End parsing process for the node
+     *
+     * @return $this
+     */
+    public final function parseEnd()
+    {
+        $this->parserGetData();
+        if (ob_get_level())
+            ob_end_clean();
+        return $this;
+    }
+
+    /**
+     * Get result of the parsing process
+     *
+     * @return $this
+     */
+    public final function parserGetData()
+    {
+        if (ob_get_level()) {
+            $parserResult = ob_get_contents();
+            $this->parseProcess($parserResult);
+            ob_clean();
+        }
+        return $this;
+    }
+
+    /**
+     * Implementation of parsing logic for concrete node type
+     *
+     * @param $source
+     * @return mixed
+     */
+    abstract protected function parseProcess($source);
+
+    /**
+     * Get type of the node
+     *
+     * @return mixed
+     */
+    abstract function getType();
 }
