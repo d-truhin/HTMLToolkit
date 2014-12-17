@@ -1,6 +1,7 @@
 .idea
 parser.php
 phing.xml
+phing-release.xml
 exclude
 SMelukov/HTMLToolkit/tests
 composer.json
