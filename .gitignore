@@ -1,4 +1,4 @@
-.idea
+.idea/
 parser.php
 phing.xml
 phing-release.xml
