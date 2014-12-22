@@ -5,6 +5,10 @@
  * Date: 19.03.14
  * Time: 21:26
  */
+ 
+ /*
+ TODO: get id ob object thru spl_object_hash()
+ */
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
