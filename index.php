@@ -7,7 +7,7 @@
  */
  
  /*
- TODO: get id ob object thru spl_object_hash()
+ TODO: get id of object thru spl_object_hash()
  */
 
 error_reporting(E_ALL);
