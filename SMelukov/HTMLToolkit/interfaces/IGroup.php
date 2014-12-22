@@ -6,12 +6,12 @@
  * Time: 10:56
  */
 
-namespace SMelukov\HTMLToolkit\interfaces;
+namespace SMelukov\HTMLToolkit\Interfaces;
 
 
 /**
  * Class IGroup
- * @package SMelukov\HTMLToolkit\interfaces
+ * @package SMelukov\HTMLToolkit\Interfaces
  */
 abstract class IGroup implements \Countable, \Iterator, \ArrayAccess
 {
@@ -97,7 +97,7 @@ abstract class IGroup implements \Countable, \Iterator, \ArrayAccess
     /**
      * Add element to the group
      *
-     * @param IHasID[] $elements
+     * @param IHasID[]|IHasID $elements
      * @return $this
      */
     public function addElements($elements)

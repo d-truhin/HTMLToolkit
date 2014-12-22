@@ -1,7 +1,7 @@
 <?php
 namespace SMelukov\HTMLToolkit;
 
-use SMelukov\HTMLToolkit\interfaces;
+use SMelukov\HTMLToolkit\Interfaces;
 
 /**
  * Created by PhpStorm.
@@ -11,7 +11,7 @@ use SMelukov\HTMLToolkit\interfaces;
  *
  * @method HTMLTag parent();
  */
-class TextNode extends interfaces\IWebNode
+class TextNode extends Interfaces\IWebNode
 {
     /**
      * @var string
@@ -48,14 +48,14 @@ class TextNode extends interfaces\IWebNode
     }
 
     /** {@inheritdoc} */
-    public function append(interfaces\IElement $what, $clone = false)
+    public function append(Interfaces\IElement $what, $clone = false)
     {
         $this->_text .= $what;
         return $this;
     }
 
     /** {@inheritdoc} */
-    public function prepend(interfaces\IElement $what, $clone = false)
+    public function prepend(Interfaces\IElement $what, $clone = false)
     {
         $this->_text = $what . $this->_text;
         return $this;

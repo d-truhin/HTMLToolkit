@@ -9,10 +9,12 @@
 namespace SMelukov\HTMLToolkit;
 
 
-use SMelukov\HTMLToolkit\interfaces\IHasID;
+use SMelukov\HTMLToolkit\Interfaces\IHasID;
+use SMelukov\HTMLToolkit\Traits\HasID;
 
-class TagAttribute extends IHasID
+class TagAttribute implements IHasID
 {
+    use HasID;
     const       DEFAULT_DELIMITER = ' ';
     protected $_name      = '';
     protected $_values    = [];
@@ -20,7 +22,6 @@ class TagAttribute extends IHasID
 
     public function __construct($name, $delimiter = self::DEFAULT_DELIMITER, $values = [])
     {
-        parent::__construct();
         $this->_name      = $name;
         $this->_delimiter = $delimiter;
         $this->append(is_array($values) ? $values : explode($delimiter, $values));

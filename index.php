@@ -5,10 +5,6 @@
  * Date: 19.03.14
  * Time: 21:26
  */
- 
- /*
- TODO: get id of object thru spl_object_hash()
- */
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -27,9 +23,9 @@ require_once "smelukov_autoload.php";
 //simple tests
 (new Div(new TextNode('simple tests')))->out();
 $text = new TextNode();
-$text->append(new TextNode('привет'));
+$text->append(new TextNode('привет'))->out();
 $i = new HTMLTag('i');
-$i->append(new TextNode(' еще привет<div>123</div>&lt &lt;'));
+$i->append(new TextNode(' еще привет<div>123</div>&lt &lt;'))->out();
 
 //attributes tests
 (new Div(new TextNode('attributes tests')))->out();
@@ -76,7 +72,7 @@ $nodeGroup = (new NodeGroup('some_name', [
 
 $nodeGroup->getAttr('rel')->switchValue(4, 0)->switchValue(1, 2);
 
-$nodeGroup->each()->out();
+$nodeGroup->out(); // OR $nodeGroup->each()->out();
 
 //more tests
 (new Div(new TextNode('more tests')))->out();

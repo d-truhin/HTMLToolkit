@@ -8,7 +8,7 @@
 
 namespace SMelukov\HTMLToolkit;
 
-use SMelukov\HTMLToolkit\interfaces\IGroup;
+use SMelukov\HTMLToolkit\Interfaces\IGroup;
 
 
 /**

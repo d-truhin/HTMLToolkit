@@ -1,7 +1,7 @@
 <?php
 namespace SMelukov\HTMLToolkit;
 
-use SMelukov\HTMLToolkit\interfaces;
+use SMelukov\HTMLToolkit\Interfaces;
 use SMelukov\HTMLToolkit\Tools\HTMLParser;
 
 /**
@@ -13,7 +13,7 @@ use SMelukov\HTMLToolkit\Tools\HTMLParser;
  * @method HTMLTag parent();
  * @method interfaces\IWebNode[] getChildrenList($idInKeys = false);
  */
-class HTMLTag extends interfaces\IWebNode
+class HTMLTag extends Interfaces\IWebNode
 {
     /**
      * @var string

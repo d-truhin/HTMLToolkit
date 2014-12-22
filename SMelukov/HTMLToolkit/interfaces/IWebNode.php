@@ -6,17 +6,17 @@
  * Time: 20:54
  */
 
-namespace SMelukov\HTMLToolkit\interfaces;
+namespace SMelukov\HTMLToolkit\Interfaces;
 
-use SMelukov\HTMLToolkit\interfaces;
+use SMelukov\HTMLToolkit\Interfaces;
 
 
 /**
  * Base class which implements a web node behavior
  *
- * @package SMelukov\HTMLToolkit\interfaces
+ * @package SMelukov\HTMLToolkit\Interfaces
  */
-abstract class IWebNode extends interfaces\IElement
+abstract class IWebNode extends Interfaces\IElement
 {
     /**
      * @return mixed
@@ -38,7 +38,6 @@ abstract class IWebNode extends interfaces\IElement
      */
     function __clone()
     {
-        $this->_id = $this->UID();
         $this->remove();
         $children = $this->getChildrenList();
         $this->removeAllChildren();

@@ -9,7 +9,7 @@
 namespace SMelukov\HTMLToolkit;
 
 
-use SMelukov\HTMLToolkit\interfaces\IGroup;
+use SMelukov\HTMLToolkit\Interfaces\IGroup;
 
 /**
  * @method HTMLTag[] getElementsList($idInKeys = false);

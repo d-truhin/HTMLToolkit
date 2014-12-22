@@ -6,16 +6,19 @@
  * Time: 15:49
  */
 
-namespace SMelukov\HTMLToolkit\interfaces;
+namespace SMelukov\HTMLToolkit\Interfaces;
+
+use SMelukov\HTMLToolkit\Traits\HasID;
 
 
 /**
  * Base class for all elements
  *
- * @package SMelukov\HTMLToolkit\interfaces
+ * @package SMelukov\HTMLToolkit\Interfaces
  */
-abstract class IElement extends IHasID
+abstract class IElement implements IHasID
 {
+    use HasID;
     /**
      * @var IElement
      */
@@ -31,7 +34,7 @@ abstract class IElement extends IHasID
      */
     public function __construct()
     {
-        parent::__construct();
+        //......
     }
 
     /**
